@@ -1,8 +1,8 @@
 import React from 'react';
 import '../styles/index.scss';
 import axios from 'axios';
-import filmIcon from "../images/play.svg";
-import filmIconBlack from "../images/play-black.svg";
+import filmIcon from "../images/movie.svg";
+import filmIconBlack from "../images/movie-black.svg";
 
 class App extends React.Component {
 
@@ -34,7 +34,7 @@ class App extends React.Component {
               tempArr.push({
                   "name": item.title,
                   "rating": item.vote_average,
-                  "year": item.release_date,
+                  "year": item.release_date.slice(0,4),
               });
             });
 
@@ -71,30 +71,34 @@ class App extends React.Component {
     return(
         <div className={"search-field"}>
             <div className={"textfield"}>
-                <div className={"textfield__input-wrapper"}>
+                <div className={"textfield__search-wrapper"}>
                     <div className={"textfield__input-icon"}><img src={filmIcon} alt={""}/></div>
-
-                    <div className={"textfield__input-container"}>
-                        <div id={"focusIcon"} className={"textfield__input-icon textfield__input-icon--black display-none"}><img src={filmIconBlack} alt={""}/></div>
-                        <div className={"textfield__input-text-wrapper"}>
-                            <input className={"textfield__input"} type="text" value={this.state.inputValue} onChange={this.onChange} onFocus={this.onFocus} onBlur={this.onFocus} placeholder={"Enter movie name"}/>
-                            <p id={"searchLowerText"} className={"lower-text display-none"} >Enter a movie name</p>
+                    <div className={"textfield__search-field"}>
+                        <div className={"textfield__input-container"}>
+                            <div id={"focusIcon"} className={"textfield__input-icon textfield__input-icon--black display-none"}><img src={filmIconBlack} alt={""}/></div>
+                            <div className={"textfield__input-wrapper"}>
+                                <input className={"textfield__input"} type="text" value={this.state.inputValue} onChange={this.onChange} onFocus={this.onFocus} onBlur={this.onFocus} placeholder={"Enter movie name"}/>
+                                <p id={"searchLowerText"} className={"lower-text lower-text--search display-none"} >Enter a movie name</p>
+                            </div>
                         </div>
+                        {this.state.showSuggestions ?
+                            <div className={"list-container"}>
+                                <div className={"list-container__wrapper"}>
+                                    <ul className={"list-container__list"}>
+                                        {this.state.movies && this.state.movies.map((item, i)=>(
+                                            <div>
+                                                <li key={i} className={"list-container__list-item"} onClick={this.onClick}>{item.name}</li>
+                                                <p className={"lower-text"}>{item.rating} Rating, {item.year} </p>
+                                            </div>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div> : ""}
                     </div>
                 </div>
                 <button id={"searchButton"} className={"textfield__submit-button"}>
                 </button>
             </div>
-          {this.state.showSuggestions ?
-          <div className={"list-container"}>
-            <div className={"list-container__wrapper"}>
-              <ul className={"list-container__list"}>
-                {this.state.movies && this.state.movies.map((item, i)=>(
-                    <li key={i} className={"list-container__list-item"} onClick={this.onClick}>{item.name}</li>
-                ))}
-              </ul>
-            </div>
-          </div> : ""}
         </div>
     );
   }
