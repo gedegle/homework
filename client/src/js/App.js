@@ -4,6 +4,8 @@ import axios from 'axios';
 import filmIcon from "../images/movie.svg";
 import filmIconBlack from "../images/movie-black.svg";
 
+const _ = require("underscore");
+
 class App extends React.Component {
 
     constructor(props) {
@@ -15,36 +17,41 @@ class App extends React.Component {
             showSuggestions: false,
             toggle: false
         };
+        this.delayedCallback = _.debounce(this.ajaxCall, 500);
 
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
 
-    onChange = e => {
+    ajaxCall(e) {
         let tempArr = [];
-        e.preventDefault;
+        axios.get(this.state.url + e.target.value)
+            .then(res => {
+                res.data.results.forEach((item) => {
+                    tempArr.push({
+                        "name": item.title,
+                        "rating": item.vote_average,
+                        "year": item.release_date.slice(0,4),
+                    });
+                });
+
+                tempArr = tempArr.slice(0, 8);
+
+                this.setState({
+                    movies: tempArr,
+                    showSuggestions: true
+                })
+            })
+    }
+    onChange = e => {
+
+        e.persist();
         this.setState({
             inputValue: e.target.value
         });
 
         if(e.target.value.length >= 3) {
-            axios.get(this.state.url + e.target.value)
-                .then(res => {
-                    res.data.results.forEach((item) => {
-                        tempArr.push({
-                            "name": item.title,
-                            "rating": item.vote_average,
-                            "year": item.release_date.slice(0,4),
-                        });
-                    });
-
-                    tempArr = tempArr.slice(0, 8);
-
-                    this.setState({
-                        movies: tempArr,
-                        showSuggestions: true
-                    })
-                })
+            this.delayedCallback(e);
         } else if(e.target.value.length === 0) {
             this.setState({
                 movies: [],
