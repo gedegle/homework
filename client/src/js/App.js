@@ -30,9 +30,6 @@ class App extends React.Component {
         if(e.target.value.length >= 3) {
             axios.get(this.state.url + e.target.value)
                 .then(res => {
-
-                    console.log(res.data);
-
                     res.data.results.forEach((item) => {
                         tempArr.push({
                             "name": item.title,
@@ -42,8 +39,6 @@ class App extends React.Component {
                     });
 
                     tempArr = tempArr.slice(0, 8);
-
-                    console.log(tempArr);
 
                     this.setState({
                         movies: tempArr,
