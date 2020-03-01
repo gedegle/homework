@@ -9,8 +9,6 @@
 }
 
 .textfield {
-  $_this: &;
-
   display: flex;
   flex-direction: row;
   padding: 25px 25px 17px;
@@ -26,7 +24,7 @@
     width: 60px;
     box-sizing: border-box;
     padding: 15px 0 12px 12px;
-    background-color: rgba(255, 255, 255, 0.23);
+    background-color: $color-input-background;
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;
 
@@ -80,7 +78,6 @@
     height: 57.5px;
     background-color: rgba(255, 255, 255, 0);
     padding-right: 12px;
-    font-weight: 600;
 
     @include font(800, $color-white);
 
