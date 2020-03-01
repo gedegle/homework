@@ -4,6 +4,7 @@
 .search-field {
   height: 100px;
   width: 100%;
+
   @include gradient($color-gradient-orange, $color-gradient-red);
 }
 
@@ -39,6 +40,7 @@
       }
     }
   }
+
   &__search-field {
     display: flex;
     flex-direction: column;
@@ -48,13 +50,15 @@
     margin-right: 5px;
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
-   }
+  }
 
   &__input-container {
     width: 100%;
     display: flex;
     flex-direction: row;
     background-color: $color-input-background;
+
+    @include transition(background-color, 0.1s);
 
     &:focus-within {
       background-color: $color-white;
@@ -70,6 +74,7 @@
     flex-direction: column;
     width: 100%;
   }
+
   &__input {
     border: none;
     height: 57.5px;
@@ -78,9 +83,11 @@
     font-weight: 600;
 
     @include font(800, $color-white);
+
     &:focus {
       color: $color-black;
       margin-top: -4px;
+      outline: none;
     }
 
     &::placeholder {
@@ -100,6 +107,7 @@
     background-position: center;
     border: none;
     border-radius: 2px;
+    cursor: pointer;
   }
 }
 
@@ -113,25 +121,42 @@
   border-bottom-left-radius: 2px;
 
   @include blur($color-blur);
+
   &__list {
     list-style-type: none;
     margin: 0;
     padding: 20px 49px 0;
+    cursor: pointer;
+
     @include font(800, $color-search-text);
+    @include transition(opacity);
   }
 }
 
 .lower-text {
   padding: 0;
   margin: 0 0 20px;
+
   @include font(400, $color-search-text, 13px);
 
   &--search {
     margin: -15px 0 8px 2px;
+
     @include font(600, $color-lower-text, 13px);
   }
 }
 
 .display-none {
   display: none;
+}
+
+.has-value {
+  color: $color-black;
+  margin-top: -4px;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+
+  &--container {
+    background-color: $color-white;
+  }
 }
